@@ -1,0 +1,43 @@
+// wait for the page to finish loading
+window.addEventListener('load', () => {
+  // 1. Grab price (our price or deal price)
+  const priceEl = document.querySelector('#priceblock_ourprice, #priceblock_dealprice');
+  const price = priceEl ? priceEl.innerText.trim() : 'N/A';
+
+  // 2. Grab product details from the “details” section
+  const details = {};
+  document.querySelectorAll('#detailBullets_feature_div li').forEach(li => {
+    const labelEl = li.querySelector('.a-text-bold');
+    const valueEl = li.querySelector('span:not(.a-text-bold)');
+    if (labelEl && valueEl) {
+      const key = labelEl.innerText.replace(':','').trim();
+      details[key] = valueEl.innerText.trim();
+    }
+  });
+
+  const weight      = details['Item Weight']         || details['Shipping Weight']     || 'N/A';
+  const dimensions  = details['Product Dimensions'] || 'N/A';
+
+  // 3. Build and style an info box
+  const infoBox = document.createElement('div');
+  Object.assign(infoBox.style, {
+    position: 'fixed',
+    top: '10px',
+    right: '10px',
+    background: 'white',
+    border: '1px solid #ccc',
+    padding: '8px 12px',
+    'font-family': 'sans-serif',
+    'font-size': '14px',
+    'z-index': 1e6,
+    'box-shadow': '0 2px 6px rgba(0,0,0,0.2)'
+  });
+  infoBox.innerHTML = `
+    <strong>Price:</strong> ${price}<br>
+    <strong>Weight:</strong> ${weight}<br>
+    <strong>Dimensions:</strong> ${dimensions}
+  `;
+
+  // 4. Inject into page
+  document.body.appendChild(infoBox);
+});

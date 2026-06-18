@@ -1,0 +1,26 @@
+{
+  "manifest_version": 3,
+  "name": "Amazon Product Info",
+  "version": "1.0",
+  "description": "Shows price, weight & dimensions on Amazon product pages",
+  "icons": {
+    "48": "icon48.png"
+  },
+  "action": {
+    "default_icon": {
+      "48": "icon48.png"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://www.amazon.com/dp/*",
+        "*://www.amazon.com/*/dp/*",
+        "*://www.amazon.com/gp/product/*",
+        "*://www.amazon.in/dp/*",
+        "*://www.amazon.in/*/dp/*"
+      ],
+      "js": ["contentScript.js"]
+    }
+  ]
+}
